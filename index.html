@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tasklet — Simple Webapp</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header>
+    <h1>Tasklet</h1>
+    <p class="subtitle">A tiny, no-backend task manager that saves to your browser.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <form id="task-form" autocomplete="off">
+        <input id="task-input" type="text" placeholder="What needs doing?" required>
+        <button type="submit" title="Add task">Add</button>
+      </form>
+      <div class="controls">
+        <input id="search" type="search" placeholder="Filter tasks…">
+        <select id="filter">
+          <option value="all">All</option>
+          <option value="open">Open</option>
+          <option value="done">Done</option>
+        </select>
+        <button id="export-btn" title="Export tasks to JSON">Export</button>
+        <input id="import-file" type="file" accept="application/json" hidden>
+        <button id="import-btn" title="Import tasks from JSON">Import</button>
+        <button id="clear-btn" class="danger" title="Delete all tasks">Clear All</button>
+      </div>
+      <ul id="list"></ul>
+      <p id="empty">No tasks yet. Add one above!</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Built with vanilla HTML/CSS/JS. Data is stored in your browser via <code>localStorage</code>.
+    </p>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
