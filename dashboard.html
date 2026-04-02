@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>API Key Analytics Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card-metric { min-width: 200px; margin-bottom: 1.5rem; }
+    .apikey-table th, .apikey-table td { vertical-align: middle; }
+  </style>
+</head>
+<body style="background-color:#f8f9fa;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">API Key Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <!-- Metrics Row -->
+    <div class="row mb-4 text-center">
+      <div class="col-md-3">
+        <div class="card card-metric shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Total API Keys</h5>
+            <h2 class="card-text" id="total-keys">234</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card card-metric shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Active Keys</h5>
+            <h2 class="card-text" id="active-keys">190</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card card-metric shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Requests 24h</h5>
+            <h2 class="card-text" id="requests">45,321</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card card-metric shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Error Rate</h5>
+            <h2 class="card-text" id="error-rate">1.6%</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row mb-4">
+      <div class="col-lg-8 mb-4 mb-lg-0">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Requests Trend</h5>
+            <canvas id="requestsChart" height="120"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Top 5 API Keys By Usage</h5>
+            <ul class="list-group" id="top-keys">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                key_123****abc
+                <span class="badge bg-primary rounded-pill">8,023</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                key_456****ghi
+                <span class="badge bg-primary rounded-pill">7,140</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                key_789****klm
+                <span class="badge bg-primary rounded-pill">6,741</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                key_321****pqr
+                <span class="badge bg-primary rounded-pill">6,300</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                key_654****stu
+                <span class="badge bg-primary rounded-pill">5,892</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Keys Table -->
+    <div class="row">
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3">API Key Details</h5>
+            <table class="table table-striped apikey-table">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Status</th>
+                  <th>Last Used</th>
+                  <th>Requests (24h)</th>
+                  <th>Error Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>key_123****abc</td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>2026-04-02 16:32</td>
+                  <td>1,234</td>
+                  <td>0.4%</td>
+                </tr>
+                <tr>
+                  <td>key_456****ghi</td>
+                  <td><span class="badge bg-danger">Disabled</span></td>
+                  <td>2026-03-29 09:21</td>
+                  <td>0</td>
+                  <td>–</td>
+                </tr>
+                <tr>
+                  <td>key_789****klm</td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>2026-04-01 22:10</td>
+                  <td>800</td>
+                  <td>2.1%</td>
+                </tr>
+                <!-- Add more keys as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS: Bootstrap + Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Example Requests Trend Chart
+    const ctx = document.getElementById('requestsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Requests',
+          data: [6000, 7000, 8000, 6500, 7300, 9000, 8321],
+          borderColor: '#0d6efd',
+          backgroundColor: 'rgba(13, 110, 253, 0.2)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
